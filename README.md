@@ -13,18 +13,16 @@ The MFA code is the code your MFA device gives you.
 # Installation
  1. Install AWS CLI.
  2. Set up MFA device for user profile, and ensure that MFA allows a user the GetSessionToken permission through IAM.  See https://docs.aws.amazon.com/IAM/latest/UserGuide/tutorial_users-self-manage-mfa-and-creds.html
- 2. Use `aws configure --profile <PROFILE_NAME>` to configure your user profile with the credentials you'll need to get a session token.
- 3. Give mfa.sh executable permissions, and optionally, symlink it or add it to your alias file
+ 3. Use `aws configure --profile <PROFILE_NAME>` to configure your user profile with the credentials you'll need to get a session token.
+ 4. Give mfa.sh executable permissions, and optionally, symlink it or add it to your alias file
 
 # Usage
 At a command prompt run the following command.
 
 ```
-./mfa.sh <AWS_PROFILE> <MFA_TOKEN_CODE> [<AWS_MFA_PROFILE>]
+./mfa.sh <AWS_PROFILE> <MFA_TOKEN_CODE> [<AWS_MFA_PROFILE>] [<MFA_DURATION>]
 ```
 
-## Alias Note:
-Scripts run in a subprocess of the calling shell.  This means that
-if you attempt to set the env vars in the script, they will only persist
-inside that subprocess.  The `alias.sh` script sets an alias function to source the env vars into your main shell whenever you
-run the `mfa` command.
+Note that the default temporary profile is `mfa`. The default token duration is 14400 seconds, or 4 hours.  You may optionally add this as the last argument.  Once this profile is created, you can use it like so, replacing the actual region and profile name if necessary:
+
+`aws s3 ls --region us-west-2 --profile mfa`
